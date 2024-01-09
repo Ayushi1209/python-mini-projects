@@ -1,0 +1,80 @@
+import requests
+import json
+import argparse
+import requests
+from urllib.parse import quote
+
+
+# Base URL and authentication setup
+
+instance = '<fill in>'
+username = '<fill in>'
+password = '<fill in>'
+
+base_url = f'https://{instance}.service-now.com/api/now/table/'
+
+# Headers for the API calls
+headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+}
+
+# Basic Authentication setup
+auth = (username, password)
+
+# Argument parsing for command-line arguments
+parser = argparse.ArgumentParser(description='ServiceNow API Interaction')
+parser.add_argument('--applicationServiceName', required=True, help='Application Service Name')
+parser.add_argument('--asgType', required=True, help='ASG Type')
+
+# Parsing and storing the arguments
+try:
+    args = vars(parser.parse_args())
+    applicationServiceName = args['applicationServiceName']
+    asgType = args['asgType']
+except Exception as e:
+    raise SystemExit(f"Did not specify required arguments - error {e}")
+
+# URL-encode the app service name
+app_service_name_encoded = quote(applicationServiceName)
+
+# API URLs
+url_cmdb_ci_service_auto = f'{base_url}cmdb_ci_service_auto?sysparm_query=name={app_service_name_encoded}'
+url_cmdb_rel_ci = f'{base_url}cmdb_rel_ci'
+cmdb_ci_cmp_resource = f'{base_url}cmdb_ci_cmp_resource'
+
+# Fetch the CI records based on the app service name
+response = requests.get(url_cmdb_ci_service_auto, headers=headers, auth=auth)
+if response.status_code == 200:
+    records = response.json()['result']
+    for record in records:
+        sys_id = record['sys_id']
+
+        # Fetch related CI records based on the sys_id
+        response_rel = requests.get(f"{url_cmdb_rel_ci}?sysparm_query=parent.sys_id={sys_id}&type=cb5592603751200032ff8c00dfbe5d17", headers=headers, auth=auth)
+        if response_rel.status_code == 200:
+            related_records = response_rel.json()['result']
+            #print(related_records)
+            for related_record in related_records:
+
+                # Extract the type value from related_record
+                type_value = related_record.get('type', {}).get('value', 'N/A')
+
+                related_ci_sys_id = related_record['child']['value']
+
+                # API URL with asg_type filter
+                url_with_asg_type_filter = f"{cmdb_ci_cmp_resource}/{related_ci_sys_id}"
+
+                # Fetch discovered CI records
+                response_discovered = requests.get(f"{cmdb_ci_cmp_resource}/{related_ci_sys_id}", headers=headers, auth=auth)
+                if response_discovered.status_code == 200:
+                    discovered_record = response_discovered.json()['result']
+                    #print(discovered_record)
+
+                    # If asgType is '*', show all ASGs; otherwise, filter by the passed asgType
+                    if asgType.lower() == '*' or discovered_record.get('u_asg_type') == asgType:
+                        discovered_name = discovered_record.get('name', 'N/A')
+                        discovered_type = discovered_record.get('u_asg_type')
+                        print(f'{applicationServiceName},{discovered_name},{discovered_type}')
+
+
