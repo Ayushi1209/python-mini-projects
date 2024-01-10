@@ -1,1 +1,13 @@
-    "msg": "template error while templating string: unexpected '/'. String: {{/Ansible/Roles/role_az_vm_start_stop/templates/asg.py}}"
+fatal: [localhost]: FAILED! => {
+    "changed": true,
+    "msg": "non-zero return code",
+    "rc": 2,
+    "stderr": "usage: asg.py [-h] --60 Day Notice Reminder to HR - CAN-NonProd 60 DAY NOTICE\n              REMINDER TO HR _ CAN_NONPROD --Custom CUSTOM\nasg.py: error: the following arguments are required: --60 Day Notice Reminder to HR - CAN-NonProd, --Custom\n",
+    "stderr_lines": [
+        "usage: asg.py [-h] --60 Day Notice Reminder to HR - CAN-NonProd 60 DAY NOTICE",
+        "              REMINDER TO HR _ CAN_NONPROD --Custom CUSTOM",
+        "asg.py: error: the following arguments are required: --60 Day Notice Reminder to HR - CAN-NonProd, --Custom"
+    ],
+    "stdout": "",
+    "stdout_lines": []
+}
