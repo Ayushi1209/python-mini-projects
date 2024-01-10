@@ -7,3 +7,6 @@
       script: /path/to/your/python_script.py
       become: true
 
+
+    "msg": "Could not find or access '/Ansible/Roles/role_az_vm_start_stop/asg.py' on the Ansible Controller.\nIf you are using a module and expect the file to exist on the remote, see the remote_src option"
+    "msg": "Could not find or access '/Ansible/Roles/role_az_vm_start_stop/asg.py' on the Ansible Controller.\nIf you are using a module and expect the file to exist on the remote, see the remote_src option"
