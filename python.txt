@@ -10,3 +10,20 @@
 
     "msg": "Could not find or access '/Ansible/Roles/role_az_vm_start_stop/asg.py' on the Ansible Controller.\nIf you are using a module and expect the file to exist on the remote, see the remote_src option"
     "msg": "Could not find or access '/Ansible/Roles/role_az_vm_start_stop/asg.py' on the Ansible Controller.\nIf you are using a module and expect the file to exist on the remote, see the remote_src option"
+
+---
+- name: Login
+  shell: |
+    export AZURE_CLI_DISABLE_CONNECTION_VERIFICATION=1
+    az login --identity
+    az account set --subscription {{ subscription_id }}
+  delegate_to: localhost
+  
+- name: Copy and Run Python Script
+  debug: /Ansible/Roles/role_az_vm_start_stop/asg.py
+  register: script_output
+
+# - name: Display Output
+#   debug: 
+#     var: script_output.stdout_lines
+      
