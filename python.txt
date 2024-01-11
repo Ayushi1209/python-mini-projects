@@ -1,14 +1,11 @@
-import os
-
-print("USERNAME_ENV_VARIABLE:", os.environ.get('USERNAME_ENV_VARIABLE'))
-print("PASSWORD_ENV_VARIABLE:", os.environ.get('PASSWORD_ENV_VARIABLE'))
-
-
-- name: Run your script with environment variables
-  hosts: your_target_hosts
-  tasks:
-    - name: Set environment variables and run script
-      command: /path/to/python your_script.py
-      environment:
-        USERNAME_ENV_VARIABLE: 'your_username'
-        PASSWORD_ENV_VARIABLE: 'your_password'
+"stderr": "Traceback (most recent call last):\n  File \"/home/AzDevOps/.ansible/tmp/ansible-tmp-1705007886.5350919-2692-242390468085990/asg.py\", line 24, in <module>\n    auth = (username, password)\nNameError: name 'username' is not defined\n",
+    "stderr_lines": [
+        "Traceback (most recent call last):",
+        "  File \"/home/AzDevOps/.ansible/tmp/ansible-tmp-1705007886.5350919-2692-242390468085990/asg.py\", line 24, in <module>",
+        "    auth = (username, password)",
+        "NameError: name 'username' is not defined"
+    ],
+    "stdout": "USERNAME_ENV_VARIABLE: None\nPASSWORD_ENV_VARIABLE: None\n",
+    "stdout_lines": [
+        "USERNAME_ENV_VARIABLE: None",
+        "PASSWORD_ENV_VARIABLE: None"
