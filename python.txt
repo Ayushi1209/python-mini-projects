@@ -1,8 +1,10 @@
----
-- hosts: localhost
-  vars:
-    username: "{{ lookup('azure_keyvault_secret', 'serviceNowUser') }}"
-    password: "{{ lookup('azure_keyvault_secret', 'servicenowPass') }}"
-  tasks:
-    - name: Run your script
-      command: python your_script.py --username "{{ username }}" --password "{{ password }}"
+    "stderr": "Traceback (most recent call last):\n  File \"/home/AzDevOps/.ansible/tmp/ansible-tmp-1705006377.324244-3438-248319207975977/asg.py\", line 24, in <module>\n    auth = (username, password)\nNameError: name 'username' is not defined\n",
+    "stderr_lines": [
+        "Traceback (most recent call last):",
+        "  File \"/home/AzDevOps/.ansible/tmp/ansible-tmp-1705006377.324244-3438-248319207975977/asg.py\", line 24, in <module>",
+        "    auth = (username, password)",
+        "NameError: name 'username' is not defined"
+    ],
+    "stdout": "",
+    "stdout_lines": []
+}
