@@ -1,41 +1,8 @@
-stderr_lines": [
-2024-01-10T17:58:59.0872494Z         "Traceback (most recent call last):",
-2024-01-10T17:58:59.0873050Z         "  File \"/usr/lib/python3/dist-packages/urllib3/connectionpool.py\", line 663, in urlopen",
-2024-01-10T17:58:59.0875358Z         "    self._prepare_proxy(conn)",
-2024-01-10T17:58:59.0875933Z         "  File \"/usr/lib/python3/dist-packages/urllib3/connectionpool.py\", line 955, in _prepare_proxy",
-2024-01-10T17:58:59.0876239Z         "    conn.connect()",
-2024-01-10T17:58:59.0876656Z         "  File \"/usr/lib/python3/dist-packages/urllib3/connection.py\", line 322, in connect",
-2024-01-10T17:58:59.0876964Z         "    self._tunnel()",
-2024-01-10T17:58:59.0877219Z         "  File \"/usr/lib/python3.8/http/client.py\", line 905, in _tunnel",
-2024-01-10T17:58:59.0877517Z         "    raise OSError(\"Tunnel connection failed: %d %s\" % (code,",
-2024-01-10T17:58:59.0877830Z         "OSError: Tunnel connection failed: 407 authenticationrequired",
-2024-01-10T17:58:59.0878087Z         "",
-2024-01-10T17:58:59.0878369Z         "During handling of the above exception, another exception occurred:",
-2024-01-10T17:58:59.0878632Z         "",
-2024-01-10T17:58:59.0878854Z         "Traceback (most recent call last):",
-2024-01-10T17:58:59.0879299Z         "  File \"/usr/lib/python3/dist-packages/requests/adapters.py\", line 439, in send",
-2024-01-10T17:58:59.0879607Z         "    resp = conn.urlopen(",
-2024-01-10T17:58:59.0880040Z         "  File \"/usr/lib/python3/dist-packages/urllib3/connectionpool.py\", line 720, in urlopen",
-2024-01-10T17:58:59.0880362Z         "    retries = retries.increment(",
-2024-01-10T17:58:59.0880900Z         "  File \"/usr/lib/python3/dist-packages/urllib3/util/retry.py\", line 436, in increment",
-2024-01-10T17:58:59.0881270Z         "    raise MaxRetryError(_pool, url, error or ResponseError(cause))",
-2024-01-10T17:58:59.0882386Z         "urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='%3cmpcd%3e.service-now.com', port=443): Max retries exceeded with url: /api/now/table/cmdb_ci_service_auto?sysparm_query=name=60%20Day%20Notice%20Reminder%20to%20HR%20-%20CAN-NonProd (Caused by ProxyError('Cannot connect to proxy.', OSError('Tunnel connection failed: 407 authenticationrequired')))",
-2024-01-10T17:58:59.0883694Z         "",
-2024-01-10T17:58:59.0883917Z         "During handling of the above exception, another exception occurred:",
-2024-01-10T17:58:59.0884157Z         "",
-2024-01-10T17:58:59.0884356Z         "Traceback (most recent call last):",
-2024-01-10T17:58:59.0884855Z         "  File \"/home/AzDevOps/.ansible/tmp/ansible-tmp-1704909538.7669601-9919-31912136322770/asg.py\", line 47, in <module>",
-2024-01-10T17:58:59.0885230Z         "    response = requests.get(url_cmdb_ci_service_auto, headers=headers, auth=auth)",
-2024-01-10T17:58:59.0885686Z         "  File \"/usr/lib/python3/dist-packages/requests/api.py\", line 75, in get",
-2024-01-10T17:58:59.0886062Z         "    return request('get', url, params=params, **kwargs)",
-2024-01-10T17:58:59.0886486Z         "  File \"/usr/lib/python3/dist-packages/requests/api.py\", line 60, in request",
-2024-01-10T17:58:59.0886786Z         "    return session.request(method=method, url=url, **kwargs)",
-2024-01-10T17:58:59.0887291Z         "  File \"/usr/lib/python3/dist-packages/requests/sessions.py\", line 535, in request",
-2024-01-10T17:58:59.0887567Z         "    resp = self.send(prep, **send_kwargs)",
-2024-01-10T17:58:59.0887957Z         "  File \"/usr/lib/python3/dist-packages/requests/sessions.py\", line 648, in send",
-2024-01-10T17:58:59.0888214Z         "    r = adapter.send(request, **kwargs)",
-2024-01-10T17:58:59.0888730Z         "  File \"/usr/lib/python3/dist-packages/requests/adapters.py\", line 510, in send",
-2024-01-10T17:58:59.0888987Z         "    raise ProxyError(e, request=request)",
-2024-01-10T17:58:59.0889986Z         "requests.exceptions.ProxyError: HTTPSConnectionPool(host='%3cmpcd%3e.service-now.com', port=443): Max retries exceeded with url: /api/now/table/cmdb_ci_service_auto?sysparm_query=name=60%20Day%20Notice%20Reminder%20to%20HR%20-%20CAN-NonProd (Caused by ProxyError('Cannot connect to proxy.', OSError('Tunnel connection failed: 407 authenticationrequired')))"
-2024-01-10T17:58:59.0890509Z     ],
-2024-01-10T17:58:59.0890672Z     "stdout": "",
+---
+- hosts: localhost
+  vars:
+    username: "{{ lookup('azure_keyvault_secret', 'serviceNowUser') }}"
+    password: "{{ lookup('azure_keyvault_secret', 'servicenowPass') }}"
+  tasks:
+    - name: Run your script
+      command: python your_script.py --username "{{ username }}" --password "{{ password }}"
