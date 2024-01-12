@@ -7,6 +7,21 @@
         name: "{{ your_asg_name }}"
       register: asg_facts
 
+    - name: Set Resource Group
+      set_fact:
+        resource_group: "{{ asg_facts.ansible_facts.azure_securitygroups | map(attribute='resource_group') | first }}"
+
+- name: Main Block
+  hosts: localhost
+  tasks:
     - name: Display ASG Details
       debug:
         var: asg_facts.ansible_facts.azure_securitygroups | first(default={'name': 'ASG not found', 'resource_group': 'Resource group not found', 'id': 'Resource ID not found'})
+
+    - name: Display Resource Group
+      debug:
+        var: resource_group
+
+    - name: Display Resource ID
+      debug:
+        var: asg_facts.ansible_facts.azure_securitygroups | map(attribute='id') | first | default('Resource ID not found')
