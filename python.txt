@@ -1,14 +1,3 @@
----
-- name: Fetch Resource Group of ASG
-  hosts: localhost
-  gather_facts: false
-  tasks:
-    - name: Get ASG Facts
-      azure_rm_securitygroup_facts:
-        name: "{{ your_asg_name }}"
-      register: asg_facts
-      failed_when: asg_facts.securitygroups | length == 0
-
-    - name: Display Resource Group Name
-      debug:
-        var: asg_facts.securitygroups[0].resource_group
+fatal: [localhost]: FAILED! => {
+    "msg": "The conditional check 'asg_facts.securitygroups | length == 0' failed. The error was: error while evaluating conditional (asg_facts.securitygroups | length == 0): 'dict object' has no attribute 'securitygroups'"
+}
