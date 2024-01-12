@@ -1,7 +1,14 @@
-    },
-    "msg": "non-zero return code",
-    "rc": 1,
-    "start": "2024-01-12 20:49:37.497540",
-    "stderr": "ERROR: InvalidArgumentValue: Missing required field: --resource-group",
-    "stderr_lines": [
-        "ERROR: InvalidArgumentValue: Missing required field: --resource-group"
+---
+- name: Fetch Resource Group of ASG
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Get ASG Facts
+      azure_rm_securitygroup_facts:
+        name: "{{ your_asg_name }}"
+      register: asg_facts
+      failed_when: asg_facts.securitygroups | length == 0
+
+    - name: Display Resource Group Name
+      debug:
+        var: asg_facts.securitygroups[0].resource_group
