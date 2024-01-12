@@ -1,13 +1,7 @@
----
-- name: Fetch Resource Group of ASG
-  hosts: localhost
-  gather_facts: false
-  tasks:
-    - name: Get Resource Group
-      command: "az network asg show --name {{ your_asg_name }} --query 'resourceGroup' -o tsv"
-      register: resource_group_name
-      failed_when: resource_group_name.rc != 0
-
-    - name: Display Resource Group Name
-      debug:
-        var: resource_group_name.stdout
+    },
+    "msg": "non-zero return code",
+    "rc": 1,
+    "start": "2024-01-12 20:49:37.497540",
+    "stderr": "ERROR: InvalidArgumentValue: Missing required field: --resource-group",
+    "stderr_lines": [
+        "ERROR: InvalidArgumentValue: Missing required field: --resource-group"
