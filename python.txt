@@ -1,3 +1,8 @@
-fatal: [localhost]: FAILED! => {
-    "msg": "The conditional check 'asg_facts.securitygroups | length == 0' failed. The error was: error while evaluating conditional (asg_facts.securitygroups | length == 0): 'dict object' has no attribute 'securitygroups'"
-}
+# Assuming $asgName is a variable containing the dynamic ASG name
+$asgName = "your_dynamic_asg_name"
+
+# Using the variable in the Azure CLI command
+$resourceGroup = (az network asg show --name $asgName --query 'resourceGroup' -o tsv)
+
+# Outputting the result
+Write-Output $resourceGroup
