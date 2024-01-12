@@ -4,15 +4,19 @@
   gather_facts: false
   tasks:
     - name: Get ASG Information
-      azure_rm_securitygroup:
+      azure_rm_securitygroup_facts:
         name: "{{ your_asg_name }}"
       register: asg_info
 
+    - name: Get Resource Group
+      azure_rm_resgroup_info:
+        name: "{{ asg_info.ansible_facts.azure_securitygroups | map(attribute='resource_group') | first | default('Resource group not found') }}"
+      register: resource_group_info
+
     - name: Display Resource Group
       debug:
-        var: asg_info.ansible_facts.azure_securitygroups | map(attribute='resource_group') | first | default('Resource group not found')
+        var: resource_group_info.ansible_facts.azure_resgroups | map(attribute='name') | first | default('Resource group not found')
 
     - name: Display Resource ID
       debug:
         var: asg_info.ansible_facts.azure_securitygroups | map(attribute='id') | first | default('Resource ID not found')
-
