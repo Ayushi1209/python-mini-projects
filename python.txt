@@ -1,11 +1,13 @@
-"stderr": "Traceback (most recent call last):\n  File \"/home/AzDevOps/.ansible/tmp/ansible-tmp-1705007886.5350919-2692-242390468085990/asg.py\", line 24, in <module>\n    auth = (username, password)\nNameError: name 'username' is not defined\n",
-    "stderr_lines": [
-        "Traceback (most recent call last):",
-        "  File \"/home/AzDevOps/.ansible/tmp/ansible-tmp-1705007886.5350919-2692-242390468085990/asg.py\", line 24, in <module>",
-        "    auth = (username, password)",
-        "NameError: name 'username' is not defined"
-    ],
-    "stdout": "USERNAME_ENV_VARIABLE: None\nPASSWORD_ENV_VARIABLE: None\n",
-    "stdout_lines": [
-        "USERNAME_ENV_VARIABLE: None",
-        "PASSWORD_ENV_VARIABLE: None"
+---
+- name: Get Azure ASG Resource ID
+  hosts: localhost
+  tasks:
+    - name: Get Azure ASG Resource ID
+      azure_rm_securitygroup_info:
+        resource_group: "{{ resource_group_name }}"
+        name: "{{ asg_name }}"
+      register: asg_info
+
+    - name: Display ASG Resource ID
+      debug:
+        var: asg_info.ansible_facts.id
