@@ -1,13 +1,18 @@
+---
+- name: Fetch Resource Group and Resource ID of ASG
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Get ASG Information
+      azure_rm_securitygroup:
+        name: "{{ your_asg_name }}"
+      register: asg_info
 
-    raise TypeError(to_native(msg))
-fatal: [localhost]: FAILED! => {
-    "changed": false,
-    "invocation": {
-        "module_args": {
-            "api_profile": "latest",
-            "cloud_environment": "AzureCloud",
-            "name": "npd-grn-roa-vm-2-win-asg"
-        }
-    },
-    "msg": "missing required arguments: resource_group"
-}
+    - name: Display Resource Group
+      debug:
+        var: asg_info.ansible_facts.azure_securitygroups | map(attribute='resource_group') | first | default('Resource group not found')
+
+    - name: Display Resource ID
+      debug:
+        var: asg_info.ansible_facts.azure_securitygroups | map(attribute='id') | first | default('Resource ID not found')
+
