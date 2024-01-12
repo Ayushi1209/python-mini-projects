@@ -1,13 +1,12 @@
-
 ---
-- name: Get Azure ASG Resource ID by Name
+- name: Fetch ASG Details by Name
   hosts: localhost
   tasks:
-    - name: Get ASG Resource ID
-      azure_rm_securitygroup_info:
+    - name: Get ASG Facts
+      azure_rm_securitygroup_facts:
         name: "{{ your_asg_name }}"
-      register: asg_info
+      register: asg_facts
 
-    - name: Display ASG Resource ID
+    - name: Display ASG Details
       debug:
-        var: asg_info.ansible_facts.id
+        var: asg_facts.ansible_facts.azure_securitygroups | first(default={'name': 'ASG not found', 'resource_group': 'Resource group not found', 'id': 'Resource ID not found'})
