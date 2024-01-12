@@ -1,11 +1,11 @@
+
 ---
-- name: Get Azure ASG Resource ID
+- name: Get Azure ASG Resource ID by Name
   hosts: localhost
   tasks:
-    - name: Get Azure ASG Resource ID
+    - name: Get ASG Resource ID
       azure_rm_securitygroup_info:
-        resource_group: "{{ resource_group_name }}"
-        name: "{{ asg_name }}"
+        name: "{{ your_asg_name }}"
       register: asg_info
 
     - name: Display ASG Resource ID
