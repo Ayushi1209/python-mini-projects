@@ -1,8 +1,1 @@
-# Assuming $asgName is a variable containing the dynamic ASG name
-$asgName = "your_dynamic_asg_name"
-
-# Using the variable in the Azure CLI command
-$resourceGroup = (az network asg show --name $asgName --query 'resourceGroup' -o tsv)
-
-# Outputting the result
-Write-Output $resourceGroup
+"\"/subscriptions/905a6c0e-6f34-41c2-ab84-0dd1fc277af6/resourceGroups/roa-infosec-rg/providers/Microsoft.Network/applicationSecurityGroups/npd-grn-roa-vm-2-win-asg\""
