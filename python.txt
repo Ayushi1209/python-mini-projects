@@ -1,6 +1,25 @@
-command: az network asg show -n "{{ item }}" -g "{{ 'me2-infosec-rg' if cloudEnvironment in ['dev', 'test'] else 'mc1-infosec-rg' }}" --query 'id'
-
-command: >
-  az network asg show -n "{{ item }}"
-  -g "{{ 'me2-infosec-rg' if cloudEnvironment in ['dev', 'test'] else 'mc1-infosec-rg' }}"
-  --query 'id'
+  "module_args": {
+            "_raw_params": "az network asg show -n \"npd-grn-roa-vm-2-win-asg\" -g \"mc1-infosec-rg\" --query 'id'\n",
+            "_uses_shell": false,
+            "argv": null,
+            "chdir": null,
+            "creates": null,
+            "executable": null,
+            "removes": null,
+            "stdin": null,
+            "stdin_add_newline": true,
+            "strip_empty_ends": true,
+            "warn": true
+        }
+    },
+    "msg": "non-zero return code",
+    "rc": 3,
+    "start": "2024-01-18 13:32:43.402473",
+    "stderr": "ERROR: (ResourceNotFound) The Resource 'Microsoft.Network/applicationSecurityGroups/npd-grn-roa-vm-2-win-asg' under resource group 'mc1-infosec-rg' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix\nCode: ResourceNotFound\nMessage: The Resource 'Microsoft.Network/applicationSecurityGroups/npd-grn-roa-vm-2-win-asg' under resource group 'mc1-infosec-rg' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix",
+    "stderr_lines": [
+        "ERROR: (ResourceNotFound) The Resource 'Microsoft.Network/applicationSecurityGroups/npd-grn-roa-vm-2-win-asg' under resource group 'mc1-infosec-rg' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix",
+        "Code: ResourceNotFound",
+        "Message: The Resource 'Microsoft.Network/applicationSecurityGroups/npd-grn-roa-vm-2-win-asg' under resource group 'mc1-infosec-rg' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"
+    ],
+    "stdout": "",
+    "stdout_lines": []
