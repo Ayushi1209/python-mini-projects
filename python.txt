@@ -1,3 +1,7 @@
+
+# - debug:
+#     msg: "{{ result.stdout_lines }}"
+
 - name: Retrieve Resource ID
   command: az network asg show -n {{ asg_name }} -g {{ resource_group }} --query 'id'
   register: result1
