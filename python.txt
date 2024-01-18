@@ -1,6 +1,11 @@
 
-# - debug:
-#     msg: "{{ result.stdout_lines }}"
+ - name: Create a list from result.stdout_lines
+      set_fact:
+        stdout_lines_list: "{{ result.stdout_lines }}"
+
+    # Optional: You can debug or print the list if needed
+    - debug:
+        var: stdout_lines_list
 
 - name: Retrieve Resource ID
   command: az network asg show -n {{ asg_name }} -g {{ resource_group }} --query 'id'
