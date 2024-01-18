@@ -1,3 +1,12 @@
+- name: Set Zone value as 1
+  set_fact:
+    zone: "1"
+  when: availability_zone == "Zone 1"
+
+- name: Set Zone value as 2
+  set_fact:
+    zone: "2"
+  when: availability_zone == "Zone 2"
 
 ASG will always be in the 
 me2-infosec-rg or mc1-infosec-rg
