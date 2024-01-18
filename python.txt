@@ -1,8 +1,12 @@
 - name: Retrieve Resource ID for each ASG
-  command: >
-    az network asg show -n "{{ item }}"
-    -g "{{ 'me2-infosec-rg' if cloudEnvironment in ['dev', 'test'] else 'mc1-infosec-rg' }}"
-    --query 'id'
+  command: az network asg show -n "{{ item }}" -g {{ resource_group }} --query 'id'
+  register: result1
+  when:
+    - cloudEnvironment == 'dev' or cloudEnvironment == 'test'
+    - resource_group == 'me2-infosec-rg'
+
+- name: Retrieve Resource ID for each ASG (prod)
+  command: az network asg show -n "{{ item }}" -g mc1-infosec-rg --query 'id'
   register: result1
   when:
     - cloudEnvironment == 'prod'
