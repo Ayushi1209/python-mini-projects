@@ -1,4 +1,12 @@
-"\"/subscriptions/905a6c0e-6f34-41c2-ab84-0dd1fc277af6/resourceGroups/roa-infosec-rg/providers/Microsoft.Network/applicationSecurityGroups/npd-grn-roa-vm-2-win-asg\""
+---
 - name: Retrieve Resource ID
   command: az network asg show -n {{ asg_name }} -g {{ resource_group }} --query 'id'
   register: result1
+
+- name: Extract and clean the Resource ID
+  set_fact:
+    cleaned_resource_id: "{{ result1.stdout_lines[0] | regex_replace('^\"|\"$', '') }}"
+
+- name: Display cleaned resource id
+  debug:
+    var: cleaned_resource_id
