@@ -1,1 +1,4 @@
 "\"/subscriptions/905a6c0e-6f34-41c2-ab84-0dd1fc277af6/resourceGroups/roa-infosec-rg/providers/Microsoft.Network/applicationSecurityGroups/npd-grn-roa-vm-2-win-asg\""
+- name: Retrieve Resource ID
+  command: az network asg show -n {{ asg_name }} -g {{ resource_group }} --query 'id'
+  register: result1
