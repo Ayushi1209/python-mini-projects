@@ -1,4 +1,8 @@
 
+ASG will always be in the 
+me2-infosec-rg or mc1-infosec-rg
+me2 or dev/test mc1 for prod
+
  - name: Create a list from result.stdout_lines
       set_fact:
         stdout_lines_list: "{{ result.stdout_lines }}"
