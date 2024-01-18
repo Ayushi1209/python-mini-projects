@@ -1,4 +1,7 @@
-
 - name: Print resource id
   debug:
     var: resource_id
+
+- name: Create list of resource ids
+  set_fact:
+    resource_id_list: "{{ resource_id_list | default([]) + [resource_id] }}"
