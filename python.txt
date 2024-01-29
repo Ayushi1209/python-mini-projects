@@ -1,6 +1,2 @@
- "resource_ids": [
-            [
-                "\"/subscriptions/c08a664b-96ae-41b7-a430-d284243fa3f5/resourceGroups/iac-dev-me2-iactact-rg/providers/Microsoft.Network/applicationSecurityGroups/dev-me2-iac-myvmasg-asg\""
-            ]
-        ]
-    },
+- set_fact:
+    final_resource_ids: "{{ cleaned_resource_ids | map('regex_replace', '[\\\"]', '') | list }}"
