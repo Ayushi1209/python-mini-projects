@@ -1,2 +1,6 @@
-- set_fact:
-    resource_ids: "{{ result1.results | map(attribute='stdout_lines') | list }}"
+ "resource_ids": [
+            [
+                "\"/subscriptions/c08a664b-96ae-41b7-a430-d284243fa3f5/resourceGroups/iac-dev-me2-iactact-rg/providers/Microsoft.Network/applicationSecurityGroups/dev-me2-iac-myvmasg-asg\""
+            ]
+        ]
+    },
