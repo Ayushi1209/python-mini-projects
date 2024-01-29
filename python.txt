@@ -1,7 +1,15 @@
-- name: Print resource id
-  debug:
-    var: resource_id
+- name: Retrieve Resource ID for each ASG
+  command: az network asg show -n {{ item }} -g {{ resource_group }} --query 'id'
+  register: result1
+  loop: "{{ list }}"
 
-- name: Create list of resource ids
+- name: List of  ASGs
   set_fact:
-    resource_id_list: "{{ resource_id_list | default([]) + [resource_id] }}"
+    resource_id: "{{ result1.results | json_query('[*].stdout_lines') | flatten }}"
+  
+- debug:
+    var: resource_id 
+
+# - name: List of  ASGs
+#   set_fact:
+#     cleaned_ids: "{{ result1.results | json_query('[*].stdout_lines') | regex_replace('^\"|\"$', '') | trim | regex_replace('\\\\', '') }}"
