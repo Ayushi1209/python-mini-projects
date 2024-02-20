@@ -1,2 +1,36 @@
-- set_fact:
-    final_resource_ids: "{{ cleaned_resource_ids | map('regex_replace', '[\\\"]', '') | list }}"
+# Prepare email body
+- name: Email body
+  set_fact:
+    email_body: "The custom ASGs associated with {{ app_name }} couldn't be attached to the virtual machine as they were not present in the expected resource groups. Kindly reach out to IaC support team for further assistance"
+  # when:
+  #   - result1.stderr != ""
+  #   - result1.rc != 0
+  #   - '"ResourceNotFound" in result1.stderr'  
+
+# # Prepare email body
+# - name: Email body
+#   set_fact:
+#     email_body: "The custom ASGs associated with {{ app_name }} couldn't be attached to the virtual machine. Kindly reach out to IaC support team for further assistance"
+#   when:
+#     - result1.stderr != ""
+#     - result1.rc != 0
+
+- name: Send mail 
+  mail:
+    host: 10.220.23.3
+    port: 25
+    subject: "Attention Required : {{ ritm }}"
+    body: "{{ email_body }}"
+    from: "no-reply.mpc.ddi@marathonpetroleum.com"
+    to: "{{ requested_for }}"
+    cc: "{{ requested_by }}"
+    charset: utf-8
+  delegate_to: localhost
+#   when: result1.rc != 0 
+
+
+
+error -- 
+
+        "msg": "The conditional check 'result1.stderr != \"\"' failed. The error was: error while evaluating conditional (result1.stderr != \"\"): 'dict object' has no attribute 'stderr'\n\nThe error appears to be in '/agent/_work/1/s/Ansible/Roles/role_az_vm_provisioning/tasks/main.yml': line 168, column 3, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n# Prepare email body\n- name: Email body\n  ^ here\n"
+
