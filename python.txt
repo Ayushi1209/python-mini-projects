@@ -34,3 +34,10 @@ error --
 
         "msg": "The conditional check 'result1.stderr != \"\"' failed. The error was: error while evaluating conditional (result1.stderr != \"\"): 'dict object' has no attribute 'stderr'\n\nThe error appears to be in '/agent/_work/1/s/Ansible/Roles/role_az_vm_provisioning/tasks/main.yml': line 168, column 3, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n# Prepare email body\n- name: Email body\n  ^ here\n"
 
+changed: [dgwgen812058 -> localhost] => {
+    "changed": true,
+    "rc": 0,
+    "stderr": "",
+    "stderr_lines": [],
+    "stdout": "",
+    "stdout_lines": []
