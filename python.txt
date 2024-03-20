@@ -5,8 +5,9 @@ foreach ($role in $roles) {
     foreach ($assignment in $roleAssignments) {
         $displayName = $assignment.DisplayName
         if ($displayName -like '*\*\*\*') {
-            $displayName = $assignment.ObjectId
+            $assignment | Select-Object RoleDefinitionName, @{Name="DisplayName"; Expression={$_.ObjectId}}, @{Name="Subscription Name"; Expression={$SubscriptionName}}
+        } else {
+            $assignment | Select-Object RoleDefinitionName, DisplayName, @{Name="Subscription Name"; Expression={$SubscriptionName}}
         }
-        $assignment | Select-Object @{Name="DisplayName"; Expression={$displayName}}, RoleDefinitionName, @{Name="Subscription Name"; Expression={$SubscriptionName}} 
     }
 }
