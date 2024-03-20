@@ -1,43 +1,31 @@
-# Prepare email body
-- name: Email body
-  set_fact:
-    email_body: "The custom ASGs associated with {{ app_name }} couldn't be attached to the virtual machine as they were not present in the expected resource groups. Kindly reach out to IaC support team for further assistance"
-  # when:
-  #   - result1.stderr != ""
-  #   - result1.rc != 0
-  #   - '"ResourceNotFound" in result1.stderr'  
 
-# # Prepare email body
-# - name: Email body
-#   set_fact:
-#     email_body: "The custom ASGs associated with {{ app_name }} couldn't be attached to the virtual machine. Kindly reach out to IaC support team for further assistance"
-#   when:
-#     - result1.stderr != ""
-#     - result1.rc != 0
+        "ObjectId           : 29ba5a90-bcdc-4c2b-b923-fdc078b0a7d2",
+        "Subscription Name  : MPC-IaC-Dev",
+        "",
+        "",
+        "RoleDefinitionName : User Access Administrator",
+        "DisplayName        : ***",
+        "ObjectId           : ebe0918d-e69f-48f5-980c-3d248f5d5d11",
+        "Subscription Name  : MPC-IaC-Dev",
+        "",
+        "",
+        "RoleDefinitionName : User Access Administrator",
+        "DisplayName        : Sheeks-Azure, Dave D.",
+        "ObjectId           : c7577582-fcf8-483a-9cc1-7e254d3ac681",
+        "Subscription Name  : MPC-IaC-Dev",
+        "",
 
-- name: Send mail 
-  mail:
-    host: 10.220.23.3
-    port: 25
-    subject: "Attention Required : {{ ritm }}"
-    body: "{{ email_body }}"
-    from: "no-reply.mpc.ddi@marathonpetroleum.com"
-    to: "{{ requested_for }}"
-    cc: "{{ requested_by }}"
-    charset: utf-8
-  delegate_to: localhost
-#   when: result1.rc != 0 
-
-
-
-error -- 
-
-        "msg": "The conditional check 'result1.stderr != \"\"' failed. The error was: error while evaluating conditional (result1.stderr != \"\"): 'dict object' has no attribute 'stderr'\n\nThe error appears to be in '/agent/_work/1/s/Ansible/Roles/role_az_vm_provisioning/tasks/main.yml': line 168, column 3, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n# Prepare email body\n- name: Email body\n  ^ here\n"
-
-changed: [dgwgen812058 -> localhost] => {
-    "changed": true,
-    "rc": 0,
-    "stderr": "",
-    "stderr_lines": [],
-    "stdout": "",
-    "stdout_lines": []
+    $roles = "Owner", "Contributor", "User Access Administrator", "Role Based Access Control Administrator", "Azure SetupAsService"
+    foreach ($role in $roles) {
+        Write-Host "Role: $role"
+        $roleAssignments = Get-AzRoleAssignment -Scope /subscriptions/$SubscriptionId | Where-Object { $_.RoleDefinitionName -eq $role -and $_.ObjectType -eq "User"} 
+        $roleAssignments | Select-Object RoleDefinitionName, DisplayName, ObjectId, @{Name="Subscription Name"; Expression={$SubscriptionName}} 
+        $results | ForEach-Object {
+          $memberName = $_.DisplayName
+          if ($memberName -contains '*\*\*\*') {
+              $_ | Select-Object @{Name="DisplayName"; Expression={$_.ObjectId}}, RoleDefinitionName, @{Name="Subscription Name"; Expression={$SubscriptionName}} 
+          } else {
+              $_ | Select-Object DisplayName, RoleDefinitionName, @{Name="Subscription Name"; Expression={$SubscriptionName}} 
+          }
+        }
+    }
