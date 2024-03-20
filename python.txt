@@ -4,7 +4,8 @@ foreach ($role in $roles) {
     $roleAssignments = Get-AzRoleAssignment -Scope /subscriptions/$SubscriptionId | Where-Object { $_.RoleDefinitionName -eq $role -and $_.ObjectType -eq "User"} 
     foreach ($assignment in $roleAssignments) {
         $displayName = $assignment.DisplayName
-        $displayNameToShow = if ($displayName -like '*\*\*\*') { $assignment.ObjectId } else { $displayName }
-        $assignment | Select-Object RoleDefinitionName, @{Name="DisplayName"; Expression={$displayNameToShow}}, @{Name="Subscription Name"; Expression={$SubscriptionName}} 
+        $assignment | Select-Object RoleDefinitionName, `
+            @{Name="DisplayName"; Expression={ if($_.DisplayName -like '*\*\*\*') { $_.ObjectId } else { $_.DisplayName }}}, `
+            @{Name="Subscription Name"; Expression={$SubscriptionName}}
     }
 }
