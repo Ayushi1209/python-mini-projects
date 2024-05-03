@@ -1,9 +1,15 @@
-$users = "'asingh4@marathonpetroleum.com','****','nikita@marathonpetroleum.com'"
- 
-foreach ($user in $users.Split(',')) {
-    if ($user -match '\*') {
-        Write-Output "ObjectId"
-    } else {
-        Write-Output "Displayname"
+Select-AzSubscription -SubscriptionId $SubscriptionId  
+
+    $roles = "Owner", "Contributor", "User Access Administrator", "Role Based Access Control Administrator", "Azure SetupAsService"
+
+    foreach ($role in $roles) {
+
+        Write-Host "Role: $role"
+
+        $roleAssignments = Get-AzRoleAssignment | Where-Object { $_.RoleDefinitionName -eq $role } 
+
+        $roleAssignments | Where-Object { $_.ObjectType -eq "Group" } 
+
+        $roleAssignments | Where-Object { $_.Scope -eq  "/subscriptions/$SubscriptionId" } | Select-Object DisplayName, RoleDefinitionName, ObjectId, Scope      
+
     }
-}
