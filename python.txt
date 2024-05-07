@@ -1,15 +1,8 @@
-Select-AzSubscription -SubscriptionId $SubscriptionId  
-
-    $roles = "Owner", "Contributor", "User Access Administrator", "Role Based Access Control Administrator", "Azure SetupAsService"
-
+$roles = "Owner", "Contributor", "User Access Administrator", "Role Based Access Control Administrator", "Azure SetupAsService"
     foreach ($role in $roles) {
-
         Write-Host "Role: $role"
-
-        $roleAssignments = Get-AzRoleAssignment | Where-Object { $_.RoleDefinitionName -eq $role } 
-
-        $roleAssignments | Where-Object { $_.ObjectType -eq "Group" } 
-
-        $roleAssignments | Where-Object { $_.Scope -eq  "/subscriptions/$SubscriptionId" } | Select-Object DisplayName, RoleDefinitionName, ObjectId, Scope      
-
+        $roleAssignments = Get-AzRoleAssignment -Scope /subscriptions/$SubscriptionId | Where-Object { $_.RoleDefinitionName -eq $role }
+        $userRoleAssignments = $roleAssignments | Where-Object { $_.ObjectType -eq "User" }
+        $filteredRoleAssignments = $userRoleAssignments | Select-Object DisplayName, RoleDefinitionName, ObjectId, Scope     
+        $filteredRoleAssignments 
     }
